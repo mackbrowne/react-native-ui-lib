@@ -176,7 +176,7 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
   }
 
   renderCheckbox() {
-    const {selectedIcon, color, iconColor = this.props.outline ? this.getColor() : DEFAULT_ICON_COLOR, label, disabled, testID, style, containerStyle, outline, ...others} = this.props;
+    const {selectedIcon, color, iconColor, label, disabled, testID, style, containerStyle, outline = false, ...others} = this.props;
 
     return (
       //@ts-ignore
@@ -195,7 +195,7 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
             <Animated.Image
               style={[
                 this.styles.selectedIcon,
-                color && {tintColor: iconColor},
+                color && {tintColor: iconColor || outline ? this.getColor() : DEFAULT_ICON_COLOR},
                 {transform: this.animationStyle.transform},
                 disabled && {tintColor: DEFAULT_ICON_COLOR}
               ]}
@@ -224,12 +224,11 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
 }
 
 function createStyles(props: CheckboxProps) {
-  const {color = DEFAULT_COLOR, size = DEFAULT_SIZE, borderRadius} = props;
+  const {color = DEFAULT_COLOR, iconColor = DEFAULT_ICON_COLOR, size = DEFAULT_SIZE, borderRadius} = props;
 
-  let iconColor = props.disabled ? DEFAULT_DISABLED_COLOR : DEFAULT_ICON_COLOR;
-  if(props.outline) {
-    iconColor = props.disabled ? DEFAULT_DISABLED_COLOR : DEFAULT_COLOR;
-  }
+  let tintColor = iconColor;
+  if(props.outline) tintColor = color;
+  if(props.disabled) tintColor = DEFAULT_DISABLED_COLOR;
 
   return StyleSheet.create({
     container: {
@@ -241,7 +240,7 @@ function createStyles(props: CheckboxProps) {
       borderColor: color
     },
     selectedIcon: {
-      tintColor: iconColor,
+      tintColor,
       alignItems: 'center',
       justifyContent: 'center'
     },
