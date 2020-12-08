@@ -33,6 +33,10 @@ export interface CheckboxProps extends TouchableOpacityProps {
    */
   color?: string;
   /**
+   * alternative Checkbox outline style
+   */
+  outline?: boolean;
+  /**
    * The size of the checkbox. affect both width and height
    */
   size?: number;
@@ -172,7 +176,7 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
   }
 
   renderCheckbox() {
-    const {selectedIcon, color, iconColor, label, disabled, testID, style, containerStyle, ...others} = this.props;
+    const {selectedIcon, color, iconColor = this.props.outline ? this.getColor() : DEFAULT_ICON_COLOR, label, disabled, testID, style, containerStyle, outline, ...others} = this.props;
 
     return (
       //@ts-ignore
@@ -186,7 +190,7 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
       >
         {
           <Animated.View
-            style={[this.styles.container, {backgroundColor: this.getColor()}, {opacity: this.animationStyle.opacity}]}
+            style={[this.styles.container, {backgroundColor: outline ? 'transparent' : this.getColor()}, {opacity: this.animationStyle.opacity}]}
           >
             <Animated.Image
               style={[
@@ -220,7 +224,12 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
 }
 
 function createStyles(props: CheckboxProps) {
-  const {color = DEFAULT_COLOR, iconColor = DEFAULT_ICON_COLOR, size = DEFAULT_SIZE, borderRadius} = props;
+  const {color = DEFAULT_COLOR, size = DEFAULT_SIZE, borderRadius} = props;
+
+  let iconColor = props.disabled ? DEFAULT_DISABLED_COLOR : DEFAULT_ICON_COLOR;
+  if(props.outline) {
+    iconColor = props.disabled ? DEFAULT_DISABLED_COLOR : DEFAULT_COLOR;
+  }
 
   return StyleSheet.create({
     container: {
