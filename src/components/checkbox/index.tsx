@@ -241,10 +241,6 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
 function createStyles(props: CheckboxProps) {
   const {color = DEFAULT_COLOR, iconColor = DEFAULT_ICON_COLOR, size = DEFAULT_SIZE, borderRadius, outline, disabled} = props;
 
-  let tintColor = iconColor;
-  if (props.outline) tintColor = color;
-  if (props.disabled) tintColor = DEFAULT_DISABLED_COLOR;
-
   return StyleSheet.create({
     container: {
       width: size,
