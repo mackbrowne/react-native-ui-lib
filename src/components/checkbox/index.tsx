@@ -176,7 +176,18 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
   }
 
   renderCheckbox() {
-    const {selectedIcon, color, iconColor, label, disabled, testID, style, containerStyle, outline = false, ...others} = this.props;
+    const {
+      selectedIcon,
+      color,
+      iconColor,
+      label,
+      disabled,
+      testID,
+      style,
+      containerStyle,
+      outline = false,
+      ...others
+    } = this.props;
 
     return (
       //@ts-ignore
@@ -190,7 +201,11 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
       >
         {
           <Animated.View
-            style={[this.styles.container, {backgroundColor: disabled ? DEFAULT_DISABLED_COLOR : outline ? 'transparent' : this.getColor()}, {opacity: this.animationStyle.opacity}]}
+            style={[
+              this.styles.container,
+              {backgroundColor: outline ? 'transparent' : disabled ? DEFAULT_DISABLED_COLOR : this.getColor()},
+              {opacity: this.animationStyle.opacity}
+            ]}
           >
             <Animated.Image
               style={[
@@ -224,11 +239,11 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
 }
 
 function createStyles(props: CheckboxProps) {
-  const {color = DEFAULT_COLOR, iconColor = DEFAULT_ICON_COLOR, size = DEFAULT_SIZE, borderRadius} = props;
+  const {color = DEFAULT_COLOR, iconColor = DEFAULT_ICON_COLOR, size = DEFAULT_SIZE, borderRadius, outline, disabled} = props;
 
   let tintColor = iconColor;
-  if(props.outline) tintColor = color;
-  if(props.disabled) tintColor = DEFAULT_DISABLED_COLOR;
+  if (props.outline) tintColor = color;
+  if (props.disabled) tintColor = DEFAULT_DISABLED_COLOR;
 
   return StyleSheet.create({
     container: {
@@ -240,7 +255,7 @@ function createStyles(props: CheckboxProps) {
       borderColor: color
     },
     selectedIcon: {
-      tintColor,
+      tintColor:  disabled ? DEFAULT_DISABLED_COLOR : outline ? color : iconColor,
       alignItems: 'center',
       justifyContent: 'center'
     },
