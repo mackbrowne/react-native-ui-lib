@@ -190,7 +190,7 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
       >
         {
           <Animated.View
-            style={[this.styles.container, {backgroundColor: outline ? 'transparent' : this.getColor()}, {opacity: this.animationStyle.opacity}]}
+            style={[this.styles.container, {backgroundColor: disabled ? DEFAULT_DISABLED_COLOR : outline ? 'transparent' : this.getColor()}, {opacity: this.animationStyle.opacity}]}
           >
             <Animated.Image
               style={[
